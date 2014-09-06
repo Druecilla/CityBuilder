@@ -4,6 +4,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
 
 public class CityBuilder {
 	
@@ -38,6 +40,30 @@ public class CityBuilder {
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * @author Barthold
+	 * Initializes the 2D display.
+	 */
+	public void init2D(){
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glLoadIdentity();
+	}
+	
+	/**
+	 * @author Barthold
+	 * Initializes the 3D display.
+	 */
+	public void init3D(){
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GLU.gluPerspective(0, WIDTH / HEIGHT, 0, 1000);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glLoadIdentity();
 	}
 
 	/**
