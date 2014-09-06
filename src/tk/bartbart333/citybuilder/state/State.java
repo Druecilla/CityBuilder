@@ -28,9 +28,9 @@ public class State {
 	 * @throws NullPointerException
 	 */
 	public static void setState(States state){
-		if(states.get(currentstate) != null){
-			states.get(currentstate).init();
+		if(states.get(state) != null){
 			currentstate = state;
+			states.get(currentstate).init();
 		}else{
 			throw new NullPointerException();
 		}
