@@ -3,3 +3,8 @@ Camera
 - bewegen met WASD
 - Camera kan niet buiten grenzen, ondergronds of te hoog
 - muispositie op ondergrond krijgen
+
+Mod systeem - barthold
+- class/jar loader
+- updater?
+- abstract mod class
