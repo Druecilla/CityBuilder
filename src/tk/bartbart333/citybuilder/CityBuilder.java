@@ -9,8 +9,8 @@ import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.TextureImpl;
 
 /**
- * @author Barthold
  * The main CityBuilder class.
+ * @author Barthold
  */
 public class CityBuilder {
 	
@@ -35,8 +35,8 @@ public class CityBuilder {
 	}
 	
 	/**
-	 * @author Barthold
 	 * Initializes the opengl display.
+	 * @author Barthold
 	 */
 	private void initGL() {
 		try {
@@ -52,8 +52,8 @@ public class CityBuilder {
 	}
 	
 	/**
-	 * @author Barthold
 	 * Initializes the 2D display.
+	 * @author Barthold
 	 */
 	public void init2D(){
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -64,8 +64,8 @@ public class CityBuilder {
 	}
 	
 	/**
-	 * @author Barthold
 	 * Initializes the 3D display.
+	 * @author Barthold
 	 */
 	public void init3D(){
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -76,8 +76,8 @@ public class CityBuilder {
 	}
 	
 	/**
-	 * @author Barthold
 	 * Clears the screen at the beginning of the loop.
+	 * @author Barthold
 	 */
 	private void clearScreen(){
 		GL11.glLoadIdentity();
@@ -87,8 +87,8 @@ public class CityBuilder {
 	}
 	
 	/**
-	 * @author Barthold
 	 * Returns the CityBuilder object.
+	 * @author Barthold
 	 * @return CityBuilder object.
 	 */
 	public static CityBuilder getInstance(){
