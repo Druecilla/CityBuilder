@@ -1,6 +1,7 @@
 package tk.bartbart333.citybuilder;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
@@ -14,6 +15,15 @@ public class CityBuilder {
 	public CityBuilder(){
 		instance = this;
 		initGL();
+		
+		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_F4)){
+			
+			Display.update();
+			Display.sync(60);
+		}
+		
+		Display.destroy();
+		System.exit(0);
 	}
 	
 	/**
