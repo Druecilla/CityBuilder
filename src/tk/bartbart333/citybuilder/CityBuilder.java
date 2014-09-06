@@ -37,6 +37,9 @@ public class CityBuilder {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.setTitle("CityBuilder");
 			Display.create();
+			
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
