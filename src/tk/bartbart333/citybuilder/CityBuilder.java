@@ -23,7 +23,7 @@ public class CityBuilder {
 	private static CityBuilder instance;
 	
 	private long lastframe;
-	private long delta;
+	private float delta;
 	
 	public CityBuilder(){
 		instance = this;
@@ -121,9 +121,9 @@ public class CityBuilder {
 	/**
 	 * Returns the delta time.
 	 * @author Barthold
-	 * @return long Returns a long, delta.
+	 * @return long Returns a float, delta.
 	 */
-	public long getDelta(){
+	public float getDelta(){
 		return delta;
 	}
 	
