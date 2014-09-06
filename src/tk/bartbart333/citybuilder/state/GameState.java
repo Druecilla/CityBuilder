@@ -1,4 +1,4 @@
-package tk.bartbart333.state;
+package tk.bartbart333.citybuilder.state;
 
 /**
  * The extendable GameState holds the abstract methods every GameState should overwrite.

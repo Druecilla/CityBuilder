@@ -1,4 +1,4 @@
-package tk.bartbart333.state;
+package tk.bartbart333.citybuilder.state;
 
 /**
  * This enum holds all the GameStates.
