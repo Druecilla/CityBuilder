@@ -1,5 +1,7 @@
 package tk.bartbart333.citybuilder.states;
 
+import org.lwjgl.opengl.GL11;
+
 import tk.bartbart333.citybuilder.CityBuilder;
 import tk.bartbart333.citybuilder.game.Camera;
 import tk.bartbart333.citybuilder.game.HUD;
@@ -38,7 +40,12 @@ public class StateGame extends State{
 	public void render() {
 		CityBuilder.getInstance().init3D();
 		
-		
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glVertex3f(-100, -10, -100);
+		GL11.glVertex3f(100, -10, -100);
+		GL11.glVertex3f(100, -10, 100);
+		GL11.glVertex3f(-100, -10, 100);
+		GL11.glEnd();
 		
 		CityBuilder.getInstance().init2D();
 		
