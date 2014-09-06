@@ -25,6 +25,8 @@ public class CityBuilder {
 		instance = this;
 		initGL();
 		
+		FontRenderer.init();
+		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_F4)){
 			clearScreen();
 			
