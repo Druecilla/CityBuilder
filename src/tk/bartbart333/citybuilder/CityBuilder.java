@@ -1,6 +1,7 @@
 package tk.bartbart333.citybuilder;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -21,14 +22,20 @@ public class CityBuilder {
 	
 	private static CityBuilder instance;
 	
+	private long lastframe;
+	private long delta;
+	
 	public CityBuilder(){
 		instance = this;
 		initGL();
+		
+		lastframe = getTime();
 		
 		FontRenderer.init();
 		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_F4)){
 			clearScreen();
+			updateDelta();
 			
 			State.call();
 			
@@ -90,6 +97,34 @@ public class CityBuilder {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		TextureImpl.bindNone();
 		GL11.glColor3f(1.0f, 1.0f, 1.0f);
+	}
+	
+	/**
+	 * Calculates the delta for this frame.
+	 * @author Barthold
+	 */
+	private void updateDelta(){
+		long time = getTime();
+		delta = time - lastframe;
+		lastframe = time;
+	}
+	
+	/**
+	 * Returns a long with the time in seconds.
+	 * @author Barthold
+	 * @return long Returns a long.
+	 */
+	public long getTime(){
+		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+	}
+	
+	/**
+	 * Returns the delta time.
+	 * @author Barthold
+	 * @return long Returns a long, delta.
+	 */
+	public long getDelta(){
+		return delta;
 	}
 	
 	/**
