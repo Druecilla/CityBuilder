@@ -30,13 +30,6 @@ public class CityBuilder {
 		System.exit(0);
 	}
 	
-	private void clearScreen(){
-		GL11.glLoadIdentity();
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-		TextureImpl.bindNone();
-		GL11.glColor3f(1.0f, 1.0f, 1.0f);
-	}
-	
 	/**
 	 * @author Barthold
 	 * Initializes the opengl display.
@@ -77,7 +70,18 @@ public class CityBuilder {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
 	}
-
+	
+	/**
+	 * @author Barthold
+	 * Clears the screen at the beginning of the loop.
+	 */
+	private void clearScreen(){
+		GL11.glLoadIdentity();
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+		TextureImpl.bindNone();
+		GL11.glColor3f(1.0f, 1.0f, 1.0f);
+	}
+	
 	/**
 	 * @author Barthold
 	 * Returns the CityBuilder object.
