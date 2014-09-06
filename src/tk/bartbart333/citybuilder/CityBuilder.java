@@ -90,6 +90,7 @@ public class CityBuilder {
 		GL11.glLoadIdentity();
 		GLU.gluPerspective(100, WIDTH / HEIGHT, 0.001f, 1000);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glLoadIdentity();
 	}
 	
 	/**
