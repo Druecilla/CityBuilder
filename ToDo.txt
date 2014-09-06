@@ -1,10 +1,64 @@
 Camera
-- Camera draaien
-- bewegen met WASD
-- Camera kan niet buiten grenzen, ondergronds of te hoog
-- muispositie op ondergrond krijgen
+	Camera draaien
+	bewegen met WASD
+	Camera kan niet buiten grenzen, ondergronds of te hoog
+	muispositie op ondergrond krijgen
+
+Wereld
+	steden
+		financiën
+		tevredenheid inwoners
+	terrain
+		generatie
+		opslaan (ram)
+		opslaan op disk
+		mesh
+		bomen(?)
+	muis input naar de wereld
+	wegen
+		plaatsen
+		opslaam (ram)
+		opslaan op disk
+		auto's
+			mesh
+			AI
+	gebouwen
+		plaatsen
+		opslaam (ram)
+		opslaan op disk
+		mesh
+		benodigdheden
+		branden
+			verlagen risico door opleiding
+			verlagen risico door inspecties oid
+		front-facing sprites boven gebouwen voor notificatie
+	zones
+		bouwen van gebrouwen
+			intrekken van bewoners/werkers na een bepaalde tijd
+		huizen
+			dichtheid van huizen
+			landwaardes
+		commercieel
+			dichtheid
+			inkopen van vracht (van internationale markt of binnen stad met winst voor de stad(?))
+		industrie
+			dichtheid
+			technologie-level
+	verschillende steden in één wereld
+		handel tussen steden
+		handel met een internationale markt
+	uitbreiden van steden
+		waarde van land bepalen
+
+HUD
+	UI
+		Components
+			menu
+			button
+			label
+
 
 Mod systeem - barthold
-- class/jar loader
-- updater?
-- abstract mod class
+	class/jar loader
+	updater?
+	abstract mod class
