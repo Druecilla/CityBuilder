@@ -8,6 +8,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.TextureImpl;
 
+import tk.bartbart333.citybuilder.state.State;
+
 /**
  * The main CityBuilder class.
  * @author Barthold
@@ -25,6 +27,8 @@ public class CityBuilder {
 		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_F4)){
 			clearScreen();
+			
+			State.call();
 			
 			Display.update();
 			Display.sync(60);
