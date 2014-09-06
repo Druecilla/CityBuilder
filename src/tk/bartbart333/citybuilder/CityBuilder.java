@@ -10,6 +10,8 @@ import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.TextureImpl;
 
 import tk.bartbart333.citybuilder.state.State;
+import tk.bartbart333.citybuilder.state.States;
+import tk.bartbart333.citybuilder.states.StateGame;
 
 /**
  * The main CityBuilder class.
@@ -33,6 +35,9 @@ public class CityBuilder {
 		
 		FontRenderer.init();
 		
+		State.addState(States.GAME, new StateGame());
+		
+		State.setState(States.GAME);
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_F4)){
 			clearScreen();
 			updateDelta();
@@ -83,9 +88,8 @@ public class CityBuilder {
 	public void init3D(){
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GLU.gluPerspective(0, WIDTH / HEIGHT, 0, 1000);
+		GLU.gluPerspective(100, WIDTH / HEIGHT, 0.001f, 1000);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-		GL11.glLoadIdentity();
 	}
 	
 	/**
