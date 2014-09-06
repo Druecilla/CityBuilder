@@ -1,16 +1,11 @@
 package tk.bartbart333.citybuilder.game;
 
-import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
  * @author Barthold
  */
 public class Camera {
-	
-	private Vector3f rotation = new Vector3f();
-	private Vector3f position = new Vector3f();
-	private float speed = 0.5f;
 	
 	public Camera(){
 		
