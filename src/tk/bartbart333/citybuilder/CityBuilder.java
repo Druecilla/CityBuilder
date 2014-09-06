@@ -8,6 +8,10 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.opengl.TextureImpl;
 
+/**
+ * @author Barthold
+ * The main CityBuilder class.
+ */
 public class CityBuilder {
 	
 	public static final int WIDTH = 800;
