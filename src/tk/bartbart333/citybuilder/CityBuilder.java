@@ -19,8 +19,8 @@ import tk.bartbart333.citybuilder.states.StateGame;
  */
 public class CityBuilder {
 	
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
+	public static final int WIDTH = 1280;
+	public static final int HEIGHT = 720;
 	
 	private static CityBuilder instance;
 	
@@ -89,12 +89,14 @@ public class CityBuilder {
 		// applies projection transformations
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GLU.gluPerspective(100, WIDTH / HEIGHT, 0.001f, 1000);
+		GLU.gluPerspective(60, (float)WIDTH / (float)HEIGHT, 0.001f, 1000);
 		
 		// changes to the modelview matrix for rendering
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		// reset world transformations
 		GL11.glLoadIdentity();
+		
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
 	/**
