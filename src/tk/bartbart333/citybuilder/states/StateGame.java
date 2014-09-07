@@ -12,6 +12,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import tk.bartbart333.citybuilder.CityBuilder;
 import tk.bartbart333.citybuilder.game.Camera;
 import tk.bartbart333.citybuilder.game.HUD;
+import tk.bartbart333.citybuilder.math.Rectangle;
 import tk.bartbart333.citybuilder.state.State;
 
 /**
@@ -30,6 +31,7 @@ public class StateGame extends State{
 	@Override
 	public void init() {
 		camera = new Camera();
+		camera.setBounds(new Rectangle(-100, -100, 200, 200));
 		hud = new HUD();
 		try {
 			test = TextureLoader.getTexture("PNG", new FileInputStream(new File("./assets/test_texture.png")));

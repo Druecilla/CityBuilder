@@ -1,6 +1,24 @@
 package tk.bartbart333.citybuilder.game;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_COMPILE;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glCallList;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glEndList;
+import static org.lwjgl.opengl.GL11.glGenLists;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glNewList;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glRotatef;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.glVertex3f;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +29,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import tk.bartbart333.citybuilder.CityBuilder;
+import tk.bartbart333.citybuilder.math.Rectangle;
 import tk.bartbart333.citybuilder.math.Vector3f;
 
 
@@ -33,6 +52,7 @@ public class Camera {
 	
 	private static final float MIN_X_ROTATION = 20f;
 	private static final float MAX_X_ROTATION = 90f;
+	private Rectangle bounds = null;
 	
 	private Vector3f position;
 	private Vector3f rotation;
@@ -168,6 +188,16 @@ public class Camera {
 			if (rotation.x < MIN_X_ROTATION) rotation.x = MIN_X_ROTATION;
 			if (rotation.x > MAX_X_ROTATION) rotation.x = MAX_X_ROTATION;
 		}
+		
+		// if a bounds is specified, check for bounds collision
+		if (bounds != null) {
+			// check for x-axis collision
+			if (position.x < bounds.x) position.x = bounds.x;
+			if (position.x > bounds.x + bounds.width) position.x = bounds.x + bounds.width;
+			// check for z-axis collision
+			if (position.z < bounds.y) position.z = bounds.x;
+			if (position.z > bounds.y + bounds.height) position.z = bounds.y + bounds.height;
+		}
 	}
 	
 	/**
@@ -201,4 +231,15 @@ public class Camera {
 			glCallList(meshListId);
 		glPopMatrix();
 	}
+	
+	/**
+	 * Set the bounds for the camera. The camera's position will be confined
+	 * to these bounds. Set to null to disable the bounds.
+	 * @param bounds Rectangle to specify the bounds, must be absolute world
+	 * coordinates.
+	 */
+	public void setBounds(Rectangle bounds) {
+		this.bounds = bounds;
+	}
+	
 }
