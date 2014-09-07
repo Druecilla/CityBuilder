@@ -180,6 +180,10 @@ public class Camera {
 			position.z += movement.z;
 		}
 		
+		// reset the rotation when grater than 360 to avoid float imprecision
+		if (rotation.y > 360) rotation.y = rotation.y % 360;
+		if (rotation.y < 360) rotation.y = rotation.y % 360;
+		
 		// If the left mouse button is pressed
 		if (Mouse.isButtonDown(0)) {
 			// get the rotation input and multiply by scalar
