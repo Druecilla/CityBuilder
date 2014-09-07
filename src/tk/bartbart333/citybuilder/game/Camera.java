@@ -1,78 +1,100 @@
 package tk.bartbart333.citybuilder.game;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 import tk.bartbart333.citybuilder.CityBuilder;
+import static org.lwjgl.opengl.GL11.*;
+
 
 /**
  *
  * @author Barthold
+ * @author Stef Siekman
  */
 public class Camera {
 	
-	private Vector3f rotation = new Vector3f();
-	private Vector3f position = new Vector3f();
-	private float speed = 0.5f;
+	/**
+	 * Scalar that the movement input will be multiplied by. In other words this
+	 * is the speed the camera will move by, in meters/second.
+	 */
+	private static final float MOVEMENT_SCALAR = 50;
+	/**
+	 * Scalar that the rotation input will be multiplied by. 
+	 */
+	private static final float ROTATION_SCALAR = 0.2f;
 	
-	public Camera(){
-		
+	private Vector3f position;
+	private Vector3f rotation;
+	private float distance;
+	
+	/**
+	 * Sets up the camera at the default position, rotation and zooming distance.
+	 * @author Stef Siekman
+	 */
+	public Camera() {
+		position = new Vector3f(100, 0, 100);
+		rotation = new Vector3f(45, 0, 0);
+		distance = 50;
 	}
 
 	/**
-	 * Updates the Camera class.
+	 * Updates the camera position and rotation corresponding to the user's
+	 * input.
 	 * @author Barthold
+	 * @author Stef Siekman
 	 */
 	public void update() {
-		updateRotation();
-		updatePosition();
-		updateCamera();
-	}
-
-	/**
-	 * Updates the Rotation.
-	 * @author Barthold
-	 */
-	private void updateRotation() {
+		// Get the WASD direction
+		Vector3f movement = new Vector3f();
+		if (Keyboard.isKeyDown(Keyboard.KEY_W)) movement.z += 1;
+		if (Keyboard.isKeyDown(Keyboard.KEY_S)) movement.z -= 1;
+		if (Keyboard.isKeyDown(Keyboard.KEY_A)) movement.x -= 1;
+		if (Keyboard.isKeyDown(Keyboard.KEY_D)) movement.x += 1;
 		
-	}
-
-	/**
-	 * Updates the Position.
-	 * @author Barthold
-	 */
-	private void updatePosition() {
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			position.x -= Math.sin(-rotation.y * Math.PI / 180) * speed * CityBuilder.getInstance().getDelta();
-			position.z -= Math.cos(-rotation.y * Math.PI / 180) * speed * CityBuilder.getInstance().getDelta();
+		// If any keys pressed
+		if (movement.x != 0 || movement.z != 0) {
+			// Make the direction vector 1 in length
+			movement.normalise();
+			// Scale the direction by the delta and m/s to get a movement
+			movement.scale(CityBuilder.getInstance().getDelta() * MOVEMENT_SCALAR);
+			// Apply this movement to the position vector
+			position.x += movement.x;
+			position.z += movement.z;
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			position.x += Math.sin(-rotation.y * Math.PI / 180) * speed * CityBuilder.getInstance().getDelta();
-			position.z += Math.cos(-rotation.y * Math.PI / 180) * speed * CityBuilder.getInstance().getDelta();
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			position.x += Math.sin((-rotation.y - 90) * Math.PI / 180) * speed * CityBuilder.getInstance().getDelta();
-			position.z += Math.cos((-rotation.y - 90) * Math.PI / 180) * speed * CityBuilder.getInstance().getDelta();
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			position.x += Math.sin((-rotation.y + 90) * Math.PI / 180) * speed * CityBuilder.getInstance().getDelta();
-			position.z += Math.cos((-rotation.y + 90) * Math.PI / 180) * speed * CityBuilder.getInstance().getDelta();
+		// If the left mouse button is pressed
+		if (Mouse.isButtonDown(0)) {
+			// get the rotation input and multiply by scalar
+			float rotY = Mouse.getDX() * ROTATION_SCALAR;
+			float rotX = -Mouse.getDY() * ROTATION_SCALAR;
+			
+			// Apply the rotation
+			rotation.x += rotX;
+			rotation.y += rotY;
 		}
 	}
-
+	
 	/**
-	 * Updates the Camera.
-	 * @author Barthold
+	 * Applies the transformations the camera should make in other to place
+	 * the camera at the right position and rotation. This function should be
+	 * called after a glLoadIdentity and before rendering anything.
+	 * @author Stef Siekman
 	 */
-	private void updateCamera() {
-		GL11.glRotatef(rotation.x, 1, 0, 0);
-		GL11.glRotatef(rotation.y, 0, 1, 0);
-		GL11.glRotatef(rotation.z, 0, 0, 1);
-
-		GL11.glTranslatef(-position.x, -position.y, -position.z);
+	public void applyTransform() {
+		// reset the world transformations
+		glLoadIdentity();
+		
+		// move the camera backwards
+		glTranslatef(0, 0, -distance);
+		
+		// rotate the world
+		glRotatef(rotation.x, 1, 0, 0);
+		glRotatef(rotation.y, 0, 1, 0);
+		glRotatef(rotation.z, 0, 0, 1);
+		
+		// move to the camera's position in the world
+		glTranslatef(-position.x, -position.y, position.z);
 	}
 }

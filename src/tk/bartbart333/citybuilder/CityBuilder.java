@@ -86,10 +86,15 @@ public class CityBuilder {
 	 * @author Barthold
 	 */
 	public void init3D(){
+		// applies projection transformations
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 		GLU.gluPerspective(100, WIDTH / HEIGHT, 0.001f, 1000);
+		
+		// changes to the modelview matrix for rendering
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		// reset world transformations
+		GL11.glLoadIdentity();
 	}
 	
 	/**
@@ -109,7 +114,7 @@ public class CityBuilder {
 	 */
 	private void updateDelta(){
 		long time = getTime();
-		delta = time - lastframe;
+		delta = (time - lastframe) / 1000f;
 		lastframe = time;
 	}
 	
