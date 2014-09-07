@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import tk.bartbart333.citybuilder.CityBuilder;
@@ -72,6 +73,7 @@ public class StateGame extends State{
 		GL11.glTexCoord2f(0, 1);
 		GL11.glVertex3f(-100, 0, 100);
 		GL11.glEnd();
+		TextureImpl.bindNone();
 		
 		camera.renderDebugModel();
 		
