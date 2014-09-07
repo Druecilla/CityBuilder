@@ -41,12 +41,14 @@ public class StateGame extends State{
 		// change matrices to 3D rendering
 		CityBuilder.getInstance().init3D();
 		
+		camera.applyTransform();
+		
 		// render a test squad at y=-10
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex3f(-100, -10, -100);
-		GL11.glVertex3f(100, -10, -100);
-		GL11.glVertex3f(100, -10, 100);
-		GL11.glVertex3f(-100, -10, 100);
+		GL11.glVertex3f(-100, 0, -100);
+		GL11.glVertex3f(100, 0, -100);
+		GL11.glVertex3f(100, 0, 100);
+		GL11.glVertex3f(-100, 0, 100);
 		GL11.glEnd();
 		
 		// change matrices for 2D rendering
