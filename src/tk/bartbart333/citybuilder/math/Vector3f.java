@@ -2,6 +2,8 @@ package tk.bartbart333.citybuilder.math;
 
 public class Vector3f {
 
+	public static final Vector3f Y_AXIS = new Vector3f(0, 1, 0);
+	
     public float x;
     public float y;
     public float z;
