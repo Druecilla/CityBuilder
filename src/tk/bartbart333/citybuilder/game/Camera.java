@@ -1,6 +1,7 @@
 package tk.bartbart333.citybuilder.game;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 import tk.bartbart333.citybuilder.CityBuilder;
@@ -13,6 +14,16 @@ import static org.lwjgl.opengl.GL11.*;
  * @author Stef Siekman
  */
 public class Camera {
+	
+	/**
+	 * Scalar that the movement input will be multiplied by. In other words this
+	 * is the speed the camera will move by, in meters/second.
+	 */
+	private static final float MOVEMENT_SCALAR = 50;
+	/**
+	 * Scalar that the rotation input will be multiplied by. 
+	 */
+	private static final float ROTATION_SCALAR = 0.2f;
 	
 	private Vector3f position;
 	private Vector3f rotation;
@@ -47,10 +58,21 @@ public class Camera {
 			// Make the direction vector 1 in length
 			movement.normalise();
 			// Scale the direction by the delta and m/s to get a movement
-			movement.scale(CityBuilder.getInstance().getDelta() * 50);
+			movement.scale(CityBuilder.getInstance().getDelta() * MOVEMENT_SCALAR);
 			// Apply this movement to the position vector
 			position.x += movement.x;
 			position.z += movement.z;
+		}
+		
+		// If the left mouse button is pressed
+		if (Mouse.isButtonDown(0)) {
+			// get the rotation input and multiply by scalar
+			float rotY = Mouse.getDX() * ROTATION_SCALAR;
+			float rotX = -Mouse.getDY() * ROTATION_SCALAR;
+			
+			// Apply the rotation
+			rotation.x += rotX;
+			rotation.y += rotY;
 		}
 	}
 	
