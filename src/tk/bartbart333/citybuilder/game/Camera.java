@@ -1,11 +1,14 @@
 package tk.bartbart333.citybuilder.game;
 
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glRotatef;
-import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.*;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
 
 import tk.bartbart333.citybuilder.CityBuilder;
 import tk.bartbart333.citybuilder.math.Vector3f;
@@ -28,9 +31,15 @@ public class Camera {
 	 */
 	private static final float ROTATION_SCALAR = 0.2f;
 	
+	private static final float MIN_X_ROTATION = 20f;
+	private static final float MAX_X_ROTATION = 90f;
+	
 	private Vector3f position;
 	private Vector3f rotation;
 	private float distance;
+	
+	private int meshListId = -1;
+	private int texId = -1;
 	
 	/**
 	 * Sets up the camera at the default position, rotation and zooming distance.
@@ -39,7 +48,83 @@ public class Camera {
 	public Camera() {
 		position = new Vector3f(100, 0, 100);
 		rotation = new Vector3f(45, 0, 0);
-		distance = 50;
+		distance = 10;
+		
+		try {
+			// load the camera's texture
+			Texture tex = TextureLoader.getTexture("png",
+					new FileInputStream(new File("./assets/camera_model.png")),
+					GL_NEAREST);
+			// get the id from the texture
+			texId = tex.getTextureID();
+		} catch(Exception ex) {
+			System.err.println("Failed to init the texture for the camera:");
+			ex.printStackTrace();
+			System.exit(1);
+		}
+		
+		// create a display list id to hold the list
+		meshListId = glGenLists(1);
+		
+		// insert the data into the list
+		glNewList(meshListId, GL_COMPILE);
+			final float HALF = 1;
+			glBegin(GL_QUADS);
+				// set the texture
+				glBindTexture(GL_TEXTURE_2D, texId);
+				glColor3f(1, 1, 1);
+				
+				// setup the top
+				glTexCoord2f(.5f, .5f);
+				glVertex3f(HALF, HALF, HALF);
+				glTexCoord2f(0, .5f);
+				glVertex3f(-HALF, HALF, HALF);
+				glTexCoord2f(0, 0);
+				glVertex3f(-HALF, HALF, -HALF);
+				glTexCoord2f(.5f, 0);
+				glVertex3f(HALF, HALF, -HALF);
+				
+				// setup front
+				glTexCoord2f(1, .25f);
+				glVertex3f(HALF, 0, HALF);
+				glTexCoord2f(.5f, .25f);
+				glVertex3f(-HALF, 0, HALF);
+				glTexCoord2f(.5f, 0);
+				glVertex3f(-HALF, HALF, HALF);
+				glTexCoord2f(1, 0);
+				glVertex3f(HALF, HALF, HALF);
+
+				// setup back
+				glTexCoord2f(1, .25f);
+				glVertex3f(-HALF, 0, -HALF);
+				glTexCoord2f(.5f, .25f);
+				glVertex3f(HALF, 0, -HALF);
+				glTexCoord2f(.5f, 0);
+				glVertex3f(HALF, HALF, -HALF);
+				glTexCoord2f(1, 0);
+				glVertex3f(-HALF, HALF, -HALF);
+				
+				// setup left
+				glTexCoord2f(1, .25f);
+				glVertex3f(-HALF, 0, HALF);
+				glTexCoord2f(.5f, .25f);
+				glVertex3f(-HALF, 0, -HALF);
+				glTexCoord2f(.5f, 0);
+				glVertex3f(-HALF, HALF, -HALF);
+				glTexCoord2f(1, 0);
+				glVertex3f(-HALF, HALF, HALF);
+				
+				// setup right
+				glTexCoord2f(1, .25f);
+				glVertex3f(HALF, 0, -HALF);
+				glTexCoord2f(.5f, .25f);
+				glVertex3f(HALF, 0, HALF);
+				glTexCoord2f(.5f, 0);
+				glVertex3f(HALF, HALF, HALF);
+				glTexCoord2f(1, 0);
+				glVertex3f(HALF, HALF, -HALF);
+			glEnd();
+		glEndList();
 	}
 
 	/**
@@ -51,8 +136,8 @@ public class Camera {
 	public void update() {
 		// Get the WASD direction
 		Vector3f movement = new Vector3f();
-		if (Keyboard.isKeyDown(Keyboard.KEY_W)) movement.z += 1;
-		if (Keyboard.isKeyDown(Keyboard.KEY_S)) movement.z -= 1;
+		if (Keyboard.isKeyDown(Keyboard.KEY_W)) movement.z -= 1;
+		if (Keyboard.isKeyDown(Keyboard.KEY_S)) movement.z += 1;
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) movement.x -= 1;
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) movement.x += 1;
 		
@@ -62,6 +147,8 @@ public class Camera {
 			movement.normalize();
 			// Scale the direction by the delta and m/s to get a movement
 			movement.mul(CityBuilder.getInstance().getDelta() * MOVEMENT_SCALAR);
+			// rotate the movement to correct for the current camera rotation
+			movement.rotate(-rotation.y, Vector3f.Y_AXIS);
 			// Apply this movement to the position vector
 			position.x += movement.x;
 			position.z += movement.z;
@@ -76,6 +163,10 @@ public class Camera {
 			// Apply the rotation
 			rotation.x += rotX;
 			rotation.y += rotY;
+			
+			// Correct for the rotation caps for x rotation
+			if (rotation.x < MIN_X_ROTATION) rotation.x = MIN_X_ROTATION;
+			if (rotation.x > MAX_X_ROTATION) rotation.x = MAX_X_ROTATION;
 		}
 	}
 	
@@ -98,6 +189,16 @@ public class Camera {
 		glRotatef(rotation.z, 0, 0, 1);
 		
 		// move to the camera's position in the world
-		glTranslatef(-position.x, -position.y, position.z);
+		glTranslatef(-position.x, -position.y, -position.z);
+	}
+	
+	/**
+	 * Renders a simple mesh at the position of the camera on the floor.
+	 */
+	public void renderDebugModel() {
+		glPushMatrix();
+			glTranslatef(position.x, position.y, position.z);
+			glCallList(meshListId);
+		glPopMatrix();
 	}
 }
