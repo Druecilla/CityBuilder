@@ -1,6 +1,13 @@
 package tk.bartbart333.citybuilder.states;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
 
 import tk.bartbart333.citybuilder.CityBuilder;
 import tk.bartbart333.citybuilder.game.Camera;
@@ -15,6 +22,7 @@ public class StateGame extends State{
 	
 	private Camera camera;
 	private HUD hud;
+	private Texture test;
 	
 	/* (non-Javadoc)
 	 * @see tk.bartbart333.citybuilder.state.State#init()
@@ -23,6 +31,13 @@ public class StateGame extends State{
 	public void init() {
 		camera = new Camera();
 		hud = new HUD();
+		try {
+			test = TextureLoader.getTexture("PNG", new FileInputStream(new File("./assets/test_texture.png")));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -44,12 +59,19 @@ public class StateGame extends State{
 		camera.applyTransform();
 		
 		// render a test squad at y=-10
+		test.bind();
 		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0, 0);
 		GL11.glVertex3f(-100, 0, -100);
+		GL11.glTexCoord2f(1, 0);
 		GL11.glVertex3f(100, 0, -100);
+		GL11.glTexCoord2f(1, 1);
 		GL11.glVertex3f(100, 0, 100);
+		GL11.glTexCoord2f(0, 1);
 		GL11.glVertex3f(-100, 0, 100);
 		GL11.glEnd();
+		
+		camera.renderDebugModel();
 		
 		// change matrices for 2D rendering
 		CityBuilder.getInstance().init2D();
