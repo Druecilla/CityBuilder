@@ -2,9 +2,13 @@ package tk.bartbart333.citybuilder.math;
 
 public class Vector3f {
 
-    private float x;
-    private float y;
-    private float z;
+    public float x;
+    public float y;
+    public float z;
+    
+    public Vector3f() {
+    	this(0, 0, 0);
+    }
 
     public Vector3f(float x, float y, float z) {
         this.x = x;
@@ -27,8 +31,18 @@ public class Vector3f {
 
         return new Vector3f(x_, y_, z_);
     }
-
+    
     public Vector3f normalize() {
+    	float length = getLength();
+    	
+    	x /= length;
+    	y /= length;
+    	z /= length;
+    	
+    	return new Vector3f(x, y, z);
+    }
+
+    public Vector3f normalized() {
         float length = getLength();
 
         float x_ = x / length;

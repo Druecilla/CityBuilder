@@ -6,9 +6,9 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.util.vector.Vector3f;
 
 import tk.bartbart333.citybuilder.CityBuilder;
+import tk.bartbart333.citybuilder.math.Vector3f;
 
 
 /**
@@ -59,9 +59,9 @@ public class Camera {
 		// If any keys pressed
 		if (movement.x != 0 || movement.z != 0) {
 			// Make the direction vector 1 in length
-			movement.normalise();
+			movement.normalize();
 			// Scale the direction by the delta and m/s to get a movement
-			movement.scale(CityBuilder.getInstance().getDelta() * MOVEMENT_SCALAR);
+			movement.mul(CityBuilder.getInstance().getDelta() * MOVEMENT_SCALAR);
 			// Apply this movement to the position vector
 			position.x += movement.x;
 			position.z += movement.z;
