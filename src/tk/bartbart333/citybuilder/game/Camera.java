@@ -49,6 +49,10 @@ public class Camera {
 	 * Scalar that the rotation input will be multiplied by. 
 	 */
 	private static final float ROTATION_SCALAR = 0.2f;
+	/**
+	 * Scalar that the scroll input will be multiplied by. 
+	 */
+	private static final float SCROLL_SCALAR = 0.4f;
 	
 	private static final float MIN_X_ROTATION = 20f;
 	private static final float MAX_X_ROTATION = 90f;
@@ -57,6 +61,7 @@ public class Camera {
 	private Vector3f position;
 	private Vector3f rotation;
 	private float distance;
+	private float scroll;
 	
 	private int meshListId = -1;
 	private int texId = -1;
@@ -68,7 +73,8 @@ public class Camera {
 	public Camera() {
 		position = new Vector3f(100, 0, 100);
 		rotation = new Vector3f(45, 0, 0);
-		distance = 10;
+		scroll = 500;
+		distance = (float)Math.pow(1.007, scroll) + 2;
 		
 		try {
 			// load the camera's texture
@@ -197,6 +203,19 @@ public class Camera {
 			// check for z-axis collision
 			if (position.z < bounds.y) position.z = bounds.x;
 			if (position.z > bounds.y + bounds.height) position.z = bounds.y + bounds.height;
+		}
+		
+		// get the scroll input
+		float dScroll = Mouse.getDWheel();
+		// if there is any input
+		if (dScroll != 0) {
+			// add the the scroll variable
+			scroll += -dScroll * SCROLL_SCALAR;
+			// limit the scroll variable
+			if (scroll < 0) scroll = 0;
+			if (scroll > 800) scroll = 800;
+			distance = (float)Math.pow(1.007, scroll) + 2;
+			System.out.println(scroll);
 		}
 	}
 	
