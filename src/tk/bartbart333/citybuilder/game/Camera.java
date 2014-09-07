@@ -1,11 +1,14 @@
 package tk.bartbart333.citybuilder.game;
 
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glRotatef;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 import tk.bartbart333.citybuilder.CityBuilder;
-import static org.lwjgl.opengl.GL11.*;
 
 
 /**
