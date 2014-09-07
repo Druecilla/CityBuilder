@@ -114,7 +114,7 @@ public class CityBuilder {
 	 */
 	private void updateDelta(){
 		long time = getTime();
-		delta = time - lastframe;
+		delta = (time - lastframe) / 1000f;
 		lastframe = time;
 	}
 	
